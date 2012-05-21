@@ -1,6 +1,7 @@
 package util.pdf;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -14,6 +15,7 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 import org.xhtmlrenderer.pdf.ITextUserAgent;
 import org.xhtmlrenderer.resource.ImageResource;
 import org.xhtmlrenderer.resource.XMLResource;
+import org.xhtmlrenderer.util.Configuration;
 
 import play.Logger;
 import play.api.Play;
@@ -23,6 +25,7 @@ import play.mvc.Results;
 
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Image;
+import com.lowagie.text.pdf.BaseFont;
 
 public class PDF {
 
@@ -86,6 +89,8 @@ public class PDF {
 		try {
 			Reader reader = new StringReader(html.body());
 			ITextRenderer renderer = new ITextRenderer();
+			renderer.getFontResolver().addFontDirectory(
+					Play.current().path() + "/conf/fonts", BaseFont.EMBEDDED);
 			MyUserAgent myUserAgent = new MyUserAgent(
 					renderer.getOutputDevice());
 			myUserAgent.setSharedContext(renderer.getSharedContext());
@@ -94,7 +99,7 @@ public class PDF {
 			renderer.setDocument(document, "http://localhost:9000");
 			renderer.layout();
 			renderer.createPDF(os);
-		} catch (DocumentException e) {
+		} catch (Exception e) {
 			Logger.error("Creating document from template", e);
 		}
 	}
