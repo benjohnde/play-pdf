@@ -12,13 +12,13 @@ I have provided a simple example application at
 https://github.com/joergviola/play20-pdf/samples/pdf-sample.
 
 You can use a standard Play! scala template like this one:
-``` html document.scala.html
+``` html
 @(message: String)
 
 @main("Welcome to Play 2.0") {
-    Image: <img src="/public/images/favicon.png"/><br/>
-    Hello world! <br/>
-    @message <br/>
+    Image: &lt;img src="/public/images/favicon.png"/&gt;&lt;br/&gt;
+    Hello world! &lt;br/&gt;
+    @message &lt;br/&gt;
 }
 ```
 
