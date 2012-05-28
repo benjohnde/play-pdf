@@ -85,6 +85,15 @@ If you are using an IDE like Eclipse, remember to re-generate your project files
 Releases
 ------------
 
-0.2		21.05.2012		Font handling
-0.1		18.05.2012		Initial release
-
+<table>
+	<tr>
+		<td>0.2</td>
+		<td>21.05.2012</td>
+		<td>Font handling</td>
+	</tr>
+	<tr>
+		<td>0.1</td>
+		<td>18.05.2012</td>
+		<td>Initial release</td>
+	</tr>
+</table>
