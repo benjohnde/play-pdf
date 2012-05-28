@@ -16,9 +16,9 @@ You can use a standard Play! scala template like this one:
 @(message: String)
 
 @main("Welcome to Play 2.0") {
-    Image: &lt;img src="/public/images/favicon.png"/&gt;&lt;br/&gt;
-    Hello world! &lt;br/&gt;
-    @message &lt;br/&gt;
+    Image: <img src="/public/images/favicon.png"/><br/>
+    Hello world! <br/>
+    @message <br/>
 }
 ```
 
