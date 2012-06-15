@@ -90,6 +90,11 @@ Releases
 
 <table>
 	<tr>
+		<td>0.3</td>
+		<td>15.06.2012</td>
+		<td>CSS handling</td>
+	</tr>
+	<tr>
 		<td>0.2</td>
 		<td>21.05.2012</td>
 		<td>Font handling</td>
