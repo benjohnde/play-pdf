@@ -42,6 +42,9 @@ If the template is using an image, stylesheet, etc., it usually is loaded via an
 The PDF modules tries to optimize that resource loading:
 If you specify the URI as a path into the classpath of your Play! app, the resource is loaded directly instead.
 See the above sample template for an example.
+
+Of course you can link to CSS files in your class path also, but be aware not to
+use the ``` media="screen"```qualifier. 
   
 Fonts you use must be explicitely packaged with your app.
 ```

@@ -7,12 +7,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.StringReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.w3c.dom.Document;
 import org.xhtmlrenderer.pdf.ITextFSImage;
 import org.xhtmlrenderer.pdf.ITextOutputDevice;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 import org.xhtmlrenderer.pdf.ITextUserAgent;
+import org.xhtmlrenderer.resource.CSSResource;
 import org.xhtmlrenderer.resource.ImageResource;
 import org.xhtmlrenderer.resource.XMLResource;
 import org.xhtmlrenderer.util.Configuration;
@@ -48,6 +51,45 @@ public class PDF {
 				Logger.error("fetching image " + uri, e);
 				throw new RuntimeException(e);
 			}
+		}
+
+		@Override
+		public CSSResource getCSSResource(String uri) {
+			try {
+				// uri is in fact a complete URL
+				String path = new URL(uri).getPath();
+				InputStream stream = Play.current().resourceAsStream(path)
+						.get();
+				if (stream == null)
+					return super.getCSSResource(uri);
+				return new CSSResource(stream);
+			} catch (MalformedURLException e) {
+				Logger.error("fetching css " + uri, e);
+				throw new RuntimeException(e);
+			}
+		}
+
+		@Override
+		public byte[] getBinaryResource(String uri) {
+			InputStream stream = Play.current().resourceAsStream(uri).get();
+			if (stream == null)
+				return super.getBinaryResource(uri);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			try {
+				copy(stream, baos);
+			} catch (IOException e) {
+				Logger.error("fetching binary " + uri, e);
+				throw new RuntimeException(e);
+			}
+			return baos.toByteArray();
+		}
+
+		@Override
+		public XMLResource getXMLResource(String uri) {
+			InputStream stream = Play.current().resourceAsStream(uri).get();
+			if (stream == null)
+				return super.getXMLResource(uri);
+			return XMLResource.load(stream);
 		}
 
 		private void scaleToOutputResolution(Image image) {
