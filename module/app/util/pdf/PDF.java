@@ -7,10 +7,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.w3c.dom.Document;
+import org.w3c.tidy.Tidy;
 import org.xhtmlrenderer.pdf.ITextFSImage;
 import org.xhtmlrenderer.pdf.ITextOutputDevice;
 import org.xhtmlrenderer.pdf.ITextRenderer;
@@ -115,26 +117,36 @@ public class PDF {
 			}
 		}
 	}
-
 	public static Result ok(Html html) {
-		byte[] pdf = toBytes(html);
+		byte[] pdf = toBytes(tidify(html.body()));
 		return Results.ok(pdf).as("application/pdf");
 	}
 
 	public static byte[] toBytes(Html html) {
+		byte[] pdf = toBytes(tidify(html.body()));
+		return pdf;
+	}
+
+	private static String tidify(String body) {
+		Tidy tidy = new Tidy();
+		tidy.setXHTML(true);
+		StringWriter writer = new StringWriter();
+		tidy.parse(new StringReader(body), writer);
+		return writer.getBuffer().toString();
+	}
+
+	public static byte[] toBytes(String string) {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		toStream(html, os);
+		toStream(string, os);
 		return os.toByteArray();
 	}
 
-	public static void toStream(Html html, OutputStream os) {
+	public static void toStream(String string, OutputStream os) {
 		try {
-			Reader reader = new StringReader(html.body());
+			Reader reader = new StringReader(string);
 			ITextRenderer renderer = new ITextRenderer();
-			renderer.getFontResolver().addFontDirectory(
-					Play.current().path() + "/conf/fonts", BaseFont.EMBEDDED);
-			MyUserAgent myUserAgent = new MyUserAgent(
-					renderer.getOutputDevice());
+			renderer.getFontResolver().addFontDirectory(Play.current().path() + "/conf/fonts", BaseFont.EMBEDDED);
+			MyUserAgent myUserAgent = new MyUserAgent(renderer.getOutputDevice());
 			myUserAgent.setSharedContext(renderer.getSharedContext());
 			renderer.getSharedContext().setUserAgentCallback(myUserAgent);
 			Document document = XMLResource.load(reader).getDocument();
@@ -145,4 +157,5 @@ public class PDF {
 			Logger.error("Creating document from template", e);
 		}
 	}
+
 }
