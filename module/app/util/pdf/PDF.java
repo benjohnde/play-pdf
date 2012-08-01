@@ -31,6 +31,7 @@ import play.mvc.Results;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Image;
 import com.lowagie.text.pdf.BaseFont;
+import scala.Option;
 
 public class PDF {
 
@@ -42,17 +43,20 @@ public class PDF {
 
 		@Override
 		public ImageResource getImageResource(String uri) {
-			InputStream stream = Play.current().resourceAsStream(uri).get();
-			if (stream == null)
-				return super.getImageResource(uri);
-			try {
-				Image image = Image.getInstance(getData(stream));
-				scaleToOutputResolution(image);
-				return new ImageResource(new ITextFSImage(image));
-			} catch (Exception e) {
-				Logger.error("fetching image " + uri, e);
-				throw new RuntimeException(e);
-			}
+            Option<InputStream> option = Play.current().resourceAsStream(uri);
+            if (option.isDefined()) {
+                InputStream stream = option.get();
+                try {
+                    Image image = Image.getInstance(getData(stream));
+                    scaleToOutputResolution(image);
+                    return new ImageResource(new ITextFSImage(image));
+                } catch (Exception e) {
+                    Logger.error("fetching image " + uri, e);
+                    throw new RuntimeException(e);
+                }
+            } else {
+                return super.getImageResource(uri);
+            }
 		}
 
 		@Override
@@ -60,11 +64,12 @@ public class PDF {
 			try {
 				// uri is in fact a complete URL
 				String path = new URL(uri).getPath();
-				InputStream stream = Play.current().resourceAsStream(path)
-						.get();
-				if (stream == null)
+                Option<InputStream> option = Play.current().resourceAsStream(path);
+                if (option.isDefined()) {
+                    return new CSSResource(option.get());
+                } else {
 					return super.getCSSResource(uri);
-				return new CSSResource(stream);
+                }
 			} catch (MalformedURLException e) {
 				Logger.error("fetching css " + uri, e);
 				throw new RuntimeException(e);
@@ -73,25 +78,30 @@ public class PDF {
 
 		@Override
 		public byte[] getBinaryResource(String uri) {
-			InputStream stream = Play.current().resourceAsStream(uri).get();
-			if (stream == null)
-				return super.getBinaryResource(uri);
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			try {
-				copy(stream, baos);
-			} catch (IOException e) {
-				Logger.error("fetching binary " + uri, e);
-				throw new RuntimeException(e);
-			}
-			return baos.toByteArray();
+            Option<InputStream> option = Play.current().resourceAsStream(uri);
+            if (option.isDefined()) {
+                InputStream stream = option.get();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                try {
+                    copy(stream, baos);
+                } catch (IOException e) {
+                    Logger.error("fetching binary " + uri, e);
+                    throw new RuntimeException(e);
+                }
+                return baos.toByteArray();
+            } else {
+                return super.getBinaryResource(uri);
+            }
 		}
 
 		@Override
 		public XMLResource getXMLResource(String uri) {
-			InputStream stream = Play.current().resourceAsStream(uri).get();
-			if (stream == null)
-				return super.getXMLResource(uri);
-			return XMLResource.load(stream);
+            Option<InputStream> option = Play.current().resourceAsStream(uri);
+            if (option.isDefined()) {
+                return XMLResource.load(option.get());
+            } else {
+                return super.getXMLResource(uri);
+            }
 		}
 
 		private void scaleToOutputResolution(Image image) {
