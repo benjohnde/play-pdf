@@ -91,6 +91,7 @@
 	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/local/org.seleniumhq.selenium/selenium-support/2.16.1/jars/selenium-support.jar"/>
 	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/local/org.easytesting/fest-assert/1.4/jars/fest-assert.jar"/>
 	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/local/org.easytesting/fest-util/1.1.6/jars/fest-util.jar"/>
+	<classpathentry kind="con" path="org.scala-ide.sdt.launching.SCALA_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
