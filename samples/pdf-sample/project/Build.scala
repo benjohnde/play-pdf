@@ -1,6 +1,6 @@
 import sbt._
 import Keys._
-import PlayProject._
+import play.Project._
 
 object ApplicationBuild extends Build {
 
@@ -8,10 +8,10 @@ object ApplicationBuild extends Build {
     val appVersion      = "0.2"
 
     val appDependencies = Seq(
-      "pdf" % "pdf_2.9.1" % "0.3"
+      "pdf" % "pdf_2.10" % "0.4.0"
     )
 
-    val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
+    val main = play.Project(appName, appVersion, appDependencies).settings(
       resolvers += Resolver.url("My GitHub Play Repository", url("http://www.joergviola.de/releases/"))(Resolver.ivyStylePatterns)
     )
 
