@@ -14,24 +14,24 @@ import java.net.URL;
 import org.w3c.dom.Document;
 import org.w3c.tidy.Tidy;
 import org.xhtmlrenderer.pdf.ITextFSImage;
+import org.xhtmlrenderer.pdf.ITextFontResolver;
 import org.xhtmlrenderer.pdf.ITextOutputDevice;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 import org.xhtmlrenderer.pdf.ITextUserAgent;
 import org.xhtmlrenderer.resource.CSSResource;
 import org.xhtmlrenderer.resource.ImageResource;
 import org.xhtmlrenderer.resource.XMLResource;
-import org.xhtmlrenderer.util.Configuration;
 
 import play.Logger;
 import play.api.Play;
 import play.api.templates.Html;
 import play.mvc.Result;
 import play.mvc.Results;
+import scala.Option;
 
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Image;
 import com.lowagie.text.pdf.BaseFont;
-import scala.Option;
 
 public class PDF {
 
@@ -43,20 +43,20 @@ public class PDF {
 
 		@Override
 		public ImageResource getImageResource(String uri) {
-            Option<InputStream> option = Play.current().resourceAsStream(uri);
-            if (option.isDefined()) {
-                InputStream stream = option.get();
-                try {
-                    Image image = Image.getInstance(getData(stream));
-                    scaleToOutputResolution(image);
-                    return new ImageResource(new ITextFSImage(image));
-                } catch (Exception e) {
-                    Logger.error("fetching image " + uri, e);
-                    throw new RuntimeException(e);
-                }
-            } else {
-                return super.getImageResource(uri);
-            }
+			Option<InputStream> option = Play.current().resourceAsStream(uri);
+			if (option.isDefined()) {
+				InputStream stream = option.get();
+				try {
+					Image image = Image.getInstance(getData(stream));
+					scaleToOutputResolution(image);
+					return new ImageResource(new ITextFSImage(image));
+				} catch (Exception e) {
+					Logger.error("fetching image " + uri, e);
+					throw new RuntimeException(e);
+				}
+			} else {
+				return super.getImageResource(uri);
+			}
 		}
 
 		@Override
@@ -64,12 +64,13 @@ public class PDF {
 			try {
 				// uri is in fact a complete URL
 				String path = new URL(uri).getPath();
-                Option<InputStream> option = Play.current().resourceAsStream(path);
-                if (option.isDefined()) {
-                    return new CSSResource(option.get());
-                } else {
+				Option<InputStream> option = Play.current().resourceAsStream(
+						path);
+				if (option.isDefined()) {
+					return new CSSResource(option.get());
+				} else {
 					return super.getCSSResource(uri);
-                }
+				}
 			} catch (MalformedURLException e) {
 				Logger.error("fetching css " + uri, e);
 				throw new RuntimeException(e);
@@ -78,30 +79,30 @@ public class PDF {
 
 		@Override
 		public byte[] getBinaryResource(String uri) {
-            Option<InputStream> option = Play.current().resourceAsStream(uri);
-            if (option.isDefined()) {
-                InputStream stream = option.get();
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                try {
-                    copy(stream, baos);
-                } catch (IOException e) {
-                    Logger.error("fetching binary " + uri, e);
-                    throw new RuntimeException(e);
-                }
-                return baos.toByteArray();
-            } else {
-                return super.getBinaryResource(uri);
-            }
+			Option<InputStream> option = Play.current().resourceAsStream(uri);
+			if (option.isDefined()) {
+				InputStream stream = option.get();
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				try {
+					copy(stream, baos);
+				} catch (IOException e) {
+					Logger.error("fetching binary " + uri, e);
+					throw new RuntimeException(e);
+				}
+				return baos.toByteArray();
+			} else {
+				return super.getBinaryResource(uri);
+			}
 		}
 
 		@Override
 		public XMLResource getXMLResource(String uri) {
-            Option<InputStream> option = Play.current().resourceAsStream(uri);
-            if (option.isDefined()) {
-                return XMLResource.load(option.get());
-            } else {
-                return super.getXMLResource(uri);
-            }
+			Option<InputStream> option = Play.current().resourceAsStream(uri);
+			if (option.isDefined()) {
+				return XMLResource.load(option.get());
+			} else {
+				return super.getXMLResource(uri);
+			}
 		}
 
 		private void scaleToOutputResolution(Image image) {
@@ -127,6 +128,7 @@ public class PDF {
 			}
 		}
 	}
+
 	public static Result ok(Html html) {
 		byte[] pdf = toBytes(tidify(html.body()));
 		return Results.ok(pdf).as("application/pdf");
@@ -155,8 +157,10 @@ public class PDF {
 		try {
 			Reader reader = new StringReader(string);
 			ITextRenderer renderer = new ITextRenderer();
-			renderer.getFontResolver().addFontDirectory(Play.current().path() + "/conf/fonts", BaseFont.EMBEDDED);
-			MyUserAgent myUserAgent = new MyUserAgent(renderer.getOutputDevice());
+			addFontDirectory(renderer.getFontResolver(), Play.current().path()
+					+ "/conf/fonts");
+			MyUserAgent myUserAgent = new MyUserAgent(
+					renderer.getOutputDevice());
 			myUserAgent.setSharedContext(renderer.getSharedContext());
 			renderer.getSharedContext().setUserAgentCallback(myUserAgent);
 			Document document = XMLResource.load(reader).getDocument();
@@ -165,6 +169,15 @@ public class PDF {
 			renderer.createPDF(os);
 		} catch (Exception e) {
 			Logger.error("Creating document from template", e);
+		}
+	}
+
+	private static void addFontDirectory(ITextFontResolver fontResolver,
+			String directory) throws DocumentException, IOException {
+		File dir = new File(directory);
+		for (File file : dir.listFiles()) {
+			fontResolver.addFont(file.getAbsolutePath(), BaseFont.IDENTITY_H,
+					BaseFont.EMBEDDED);
 		}
 	}
 
