@@ -35,6 +35,8 @@ import com.lowagie.text.pdf.BaseFont;
 
 public class PDF {
 
+	private static final String PLAY_DEFAULT_URL = "http://localhost:9000";
+
 	public static class MyUserAgent extends ITextUserAgent {
 
 		public MyUserAgent(ITextOutputDevice outputDevice) {
@@ -139,6 +141,10 @@ public class PDF {
 		return pdf;
 	}
 
+	public static byte[] toBytes(String string) {
+		return toBytes(string, PLAY_DEFAULT_URL);
+	}
+
 	private static String tidify(String body) {
 		Tidy tidy = new Tidy();
 		tidy.setXHTML(true);
@@ -147,13 +153,27 @@ public class PDF {
 		return writer.getBuffer().toString();
 	}
 
-	public static byte[] toBytes(String string) {
+	public static Result ok(Html html, String documentBaseURL) {
+		byte[] pdf = toBytes(tidify(html.body()), documentBaseURL);
+		return Results.ok(pdf).as("application/pdf");
+	}
+
+	public static byte[] toBytes(Html html, String documentBaseURL) {
+		byte[] pdf = toBytes(tidify(html.body()), documentBaseURL);
+		return pdf;
+	}
+
+	public static byte[] toBytes(String string, String documentBaseURL) {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		toStream(string, os);
+		toStream(string, os, documentBaseURL);
 		return os.toByteArray();
 	}
 
 	public static void toStream(String string, OutputStream os) {
+		toStream(string, os, PLAY_DEFAULT_URL);
+	}
+
+	public static void toStream(String string, OutputStream os, String documentBaseURL) {
 		try {
 			Reader reader = new StringReader(string);
 			ITextRenderer renderer = new ITextRenderer();
@@ -164,7 +184,7 @@ public class PDF {
 			myUserAgent.setSharedContext(renderer.getSharedContext());
 			renderer.getSharedContext().setUserAgentCallback(myUserAgent);
 			Document document = XMLResource.load(reader).getDocument();
-			renderer.setDocument(document, "http://localhost:9000");
+			renderer.setDocument(document, documentBaseURL);
 			renderer.layout();
 			renderer.createPDF(os);
 		} catch (Exception e) {
