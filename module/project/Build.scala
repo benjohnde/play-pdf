@@ -5,7 +5,7 @@ import play.Project._
 object ApplicationBuild extends Build {
 
     val appName         = "pdf"
-    val appVersion      = "0.4.1"
+    val appVersion      = "0.5"
 
     val appDependencies = Seq(
       "org.xhtmlrenderer" % "core-renderer" % "R8",
