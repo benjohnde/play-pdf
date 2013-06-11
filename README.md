@@ -74,7 +74,7 @@ Therefore, including the following lines in your ```Build.scala``` will resolve 
 ```
 val appDependencies = Seq(
   ...
-      "pdf" % "pdf_2.10" % "0.4.1"
+      "pdf" % "pdf_2.10" % "0.5"
 )
 val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
   ...
