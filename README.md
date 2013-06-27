@@ -67,7 +67,11 @@ Fonts you use must be explicitely packaged with your app.
 ```
 Since the Arial font is not available to the java VM, you are required to
 add the corresponding font file, "Arial.ttf" to your Play! app.
-The module adds ```/conf/fonts``` to the list of directories searched for font files.
+
+The module imports font resources as specified in your application configuration. 
+Specify fonts as follows:```pdf.fonts = ["Arial.ttf","Helvetica.ttf"]```.
+Each font file should be placed in your Play! app so that they will be included in the class path. 
+
 
 Installation
 ------------

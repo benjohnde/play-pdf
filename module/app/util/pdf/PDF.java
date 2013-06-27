@@ -10,6 +10,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import org.w3c.dom.Document;
 import org.w3c.tidy.Tidy;
@@ -27,6 +28,7 @@ import play.api.Play;
 import play.api.templates.Html;
 import play.mvc.Result;
 import play.mvc.Results;
+import play.Configuration;
 import scala.Option;
 
 import com.lowagie.text.DocumentException;
@@ -177,8 +179,7 @@ public class PDF {
 		try {
 			Reader reader = new StringReader(string);
 			ITextRenderer renderer = new ITextRenderer();
-			addFontDirectory(renderer.getFontResolver(), Play.current().path()
-					+ "/conf/fonts");
+			AddFontsFromConfig(renderer.getFontResolver());
 			MyUserAgent myUserAgent = new MyUserAgent(
 					renderer.getOutputDevice());
 			myUserAgent.setSharedContext(renderer.getSharedContext());
@@ -192,13 +193,13 @@ public class PDF {
 		}
 	}
 
-	private static void addFontDirectory(ITextFontResolver fontResolver,
-			String directory) throws DocumentException, IOException {
-		File dir = new File(directory);
-		for (File file : dir.listFiles()) {
-			fontResolver.addFont(file.getAbsolutePath(), BaseFont.IDENTITY_H,
-					BaseFont.EMBEDDED);
+	private static void AddFontsFromConfig(ITextFontResolver fontResolver) throws DocumentException, IOException {
+		Configuration conf = play.Play.application().configuration();
+		List<String> fonts = conf.getStringList("pdf.fonts");
+		if (fonts != null && !fonts.isEmpty()) {
+			for (String font : fonts) {
+				fontResolver.addFont(font, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+			}
 		}
 	}
-
 }
