@@ -1,10 +1,10 @@
 Play 2.0 PDF module
 ===================
 
-This module help in generating PDF documents dynamically from your Play! web application.
+This module helps generating PDF documents dynamically from your Play! web application.
 It simply renders your HTML- and CSS-based templates to PDF.
 It is based on the Flying Saucer library, which in turn uses iText for PDF generation.
-   
+
 Usage
 -----
 
@@ -74,7 +74,7 @@ Therefore, including the following lines in your ```Build.scala``` will resolve 
 ```
 val appDependencies = Seq(
   ...
-      "pdf" % "pdf_2.10" % "0.5"
+      "de.joergviola" %% "play-pdf" % "0.6"
 )
 val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
   ...
