@@ -53,7 +53,7 @@ Fonts you use must be explicitely packaged with your app.
 		<style type="text/css"><!--
 		body {
 			...
-			font-family: Arial;
+			font-family: FreeSans;
 		}
 		--></style>	
 	</head>
@@ -62,9 +62,10 @@ Fonts you use must be explicitely packaged with your app.
 	</body>
 </html>
 ```
-Since the Arial font is not available to the java VM, you are required to
-add the corresponding font file, "Arial.ttf" to your Play! app.
-The module adds ```/conf/fonts``` to the list of directories searched for font files.
+Since the FreeSans font is not available to the java VM, you are required to
+add the corresponding font file, "FreeSans.ttf" to your Play! app.
+The module adds ```/conf/resources/fonts``` to the list of directories
+searched for font files.
 
 Installation
 ------------

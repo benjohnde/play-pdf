@@ -177,8 +177,10 @@ public class PDF {
 		try {
 			Reader reader = new StringReader(string);
 			ITextRenderer renderer = new ITextRenderer();
-			addFontDirectory(renderer.getFontResolver(), Play.current().path()
-					+ "/conf/fonts");
+			String fontDirectory = Play.current().path() + "/conf/resources/fonts";
+			if (new File(fontDirectory).isDirectory()) {
+				addFontDirectory(renderer.getFontResolver(), fontDirectory);
+			}
 			MyUserAgent myUserAgent = new MyUserAgent(
 					renderer.getOutputDevice());
 			myUserAgent.setSharedContext(renderer.getSharedContext());
