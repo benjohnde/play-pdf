@@ -148,6 +148,7 @@ public class PDF {
 	private static String tidify(String body) {
 		Tidy tidy = new Tidy();
 		tidy.setXHTML(true);
+		tidy.setQuiet(true);
 		StringWriter writer = new StringWriter();
 		tidy.parse(new StringReader(body), writer);
 		return writer.getBuffer().toString();
