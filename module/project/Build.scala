@@ -8,7 +8,7 @@ object ApplicationBuild extends Build {
     val appVersion      = "0.6-SNAPSHOT"
 
     val appDependencies = Seq(
-      "org.xhtmlrenderer" % "core-renderer" % "R8",
+      "org.xhtmlrenderer" % "flying-saucer-pdf" % "9.0.4",
       "net.sf.jtidy" % "jtidy" % "r938"
     )
 

@@ -51,7 +51,7 @@ public class PDF {
 				try {
 					Image image = Image.getInstance(getData(stream));
 					scaleToOutputResolution(image);
-					return new ImageResource(new ITextFSImage(image));
+					return new ImageResource(uri, new ITextFSImage(image));
 				} catch (Exception e) {
 					Logger.error("fetching image " + uri, e);
 					throw new RuntimeException(e);
