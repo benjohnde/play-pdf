@@ -9,7 +9,7 @@ object ApplicationBuild extends Build {
 
     val appDependencies = Seq(
       "org.xhtmlrenderer" % "flying-saucer-pdf" % "9.0.4",
-      "net.sf.jtidy" % "jtidy" % "r938"
+      "nu.validator.htmlparser" % "htmlparser" % "1.4"
     )
 
     val main =play.Project(appName, appVersion, appDependencies).settings(

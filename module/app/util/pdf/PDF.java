@@ -1,18 +1,17 @@
 package util.pdf;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import nu.validator.htmlparser.dom.HtmlDocumentBuilder;
+
 import org.w3c.dom.Document;
-import org.w3c.tidy.Tidy;
 import org.xhtmlrenderer.pdf.ITextFSImage;
 import org.xhtmlrenderer.pdf.ITextFontResolver;
 import org.xhtmlrenderer.pdf.ITextOutputDevice;
@@ -132,12 +131,12 @@ public class PDF {
 	}
 
 	public static Result ok(Html html) {
-		byte[] pdf = toBytes(tidify(html.body()));
+		byte[] pdf = toBytes(html.body());
 		return Results.ok(pdf).as("application/pdf");
 	}
 
 	public static byte[] toBytes(Html html) {
-		byte[] pdf = toBytes(tidify(html.body()));
+		byte[] pdf = toBytes(html.body());
 		return pdf;
 	}
 
@@ -145,22 +144,13 @@ public class PDF {
 		return toBytes(string, PLAY_DEFAULT_URL);
 	}
 
-	private static String tidify(String body) {
-		Tidy tidy = new Tidy();
-		tidy.setXHTML(true);
-		tidy.setQuiet(true);
-		StringWriter writer = new StringWriter();
-		tidy.parse(new StringReader(body), writer);
-		return writer.getBuffer().toString();
-	}
-
 	public static Result ok(Html html, String documentBaseURL) {
-		byte[] pdf = toBytes(tidify(html.body()), documentBaseURL);
+		byte[] pdf = toBytes(html.body(), documentBaseURL);
 		return Results.ok(pdf).as("application/pdf");
 	}
 
 	public static byte[] toBytes(Html html, String documentBaseURL) {
-		byte[] pdf = toBytes(tidify(html.body()), documentBaseURL);
+		byte[] pdf = toBytes(html.body(), documentBaseURL);
 		return pdf;
 	}
 
@@ -176,7 +166,7 @@ public class PDF {
 
 	public static void toStream(String string, OutputStream os, String documentBaseURL) {
 		try {
-			Reader reader = new StringReader(string);
+			InputStream input = new ByteArrayInputStream(string.getBytes("UTF-8"));
 			ITextRenderer renderer = new ITextRenderer();
 			String fontDirectory = Play.current().path() + "/conf/resources/fonts";
 			if (new File(fontDirectory).isDirectory()) {
@@ -186,7 +176,7 @@ public class PDF {
 					renderer.getOutputDevice());
 			myUserAgent.setSharedContext(renderer.getSharedContext());
 			renderer.getSharedContext().setUserAgentCallback(myUserAgent);
-			Document document = XMLResource.load(reader).getDocument();
+			Document document = new HtmlDocumentBuilder().parse(input);
 			renderer.setDocument(document, documentBaseURL);
 			renderer.layout();
 			renderer.createPDF(os);
