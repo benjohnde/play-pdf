@@ -4,4 +4,8 @@ project/target
 target
 tmp
 .history
+.cache
+.classpath
+.settings
+.project
 dist
