@@ -1,11 +1,15 @@
+# sbt output
 logs
 project/project
 project/target
 target
+dist
 tmp
+
+# eclipse output
 .history
 .cache
 .classpath
 .settings
 .project
-dist
+.target
