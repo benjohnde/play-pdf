@@ -1,3 +1,6 @@
+This module is no longer supported.
+Anyone is invited to take over!
+
 Play 2.0 PDF module
 ===================
 
