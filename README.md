@@ -1,8 +1,8 @@
-This module is no longer supported.
-Anyone is invited to take over!
+This module is no longer supported. Anyone is invited to take over!
+===================================================================
 
 Play 2.0 PDF module
-===================
+-------------------
 
 This module help in generating PDF documents dynamically from your Play! web application.
 It simply renders your HTML- and CSS-based templates to PDF.
