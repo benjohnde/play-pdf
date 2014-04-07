@@ -34,7 +34,7 @@ import com.lowagie.text.pdf.BaseFont;
 
 public class PDF {
 
-	private static final String PLAY_DEFAULT_URL = "http://localhost:9000";
+	private static final String PLAY_DEFAULT_URL = "http://localhost:" + play.Play.application().configuration().getInt("http.port", 9000);
 
 	public static class MyUserAgent extends ITextUserAgent {
 
