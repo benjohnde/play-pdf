@@ -1,7 +1,4 @@
-This module is no longer supported. Anyone is invited to take over!
-===================================================================
-
-Play 2.0 PDF module
+Play 2.3.x PDF module
 -------------------
 
 This module help in generating PDF documents dynamically from your Play! web application.
@@ -81,7 +78,7 @@ Therefore, including the following lines in your ```Build.scala``` will resolve 
 ```
 val appDependencies = Seq(
   ...
-      "pdf" % "pdf_2.10" % "0.5"
+      "pdf" %% "pdf" % "0.6-SNAPSHOT"
 )
 val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
   ...
@@ -101,6 +98,12 @@ Releases
 ------------
 
 <table>
+    <tr>
+        <td>0.6</td>
+        <td>07.01.2015</td>
+        <td>Play 2.3</td>
+        <td></td>
+    </tr>
 	<tr>
 		<td>0.5</td>
 		<td>11.06.2013</td>

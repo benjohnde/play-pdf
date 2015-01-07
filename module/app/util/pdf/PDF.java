@@ -1,7 +1,6 @@
 package util.pdf;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -25,9 +24,9 @@ import org.xhtmlrenderer.resource.XMLResource;
 
 import play.Logger;
 import play.api.Play;
-import play.api.templates.Html;
 import play.mvc.Result;
 import play.mvc.Results;
+import play.twirl.api.Html;
 import play.Configuration;
 import scala.Option;
 

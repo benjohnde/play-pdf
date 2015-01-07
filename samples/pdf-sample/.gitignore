@@ -5,4 +5,9 @@ target
 tmp
 .history
 .cache
+.project
+.classpath
+.target/
+.settings/
 dist
+in/
