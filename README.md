@@ -22,15 +22,12 @@ You can use a standard Play! scala template like this one:
 }
 ```
 
-Then this template, after having imported ```util.pdf.PDF```, can simply be rendered as:
-``` java
-	public static Result document() {
-		return PDF.ok(document.render("Your new application is ready."));
+Then this template, after having imported ```nl.rhinofly.play.PDF```, can simply be rendered as:
+``` scala
+	def document = Action {
+        val bytes = PDF.toBytes(views.html.pdf.example())
+		Ok(bytes).as("application/pdf")
 	}
-```  
-where ```PDF.ok``` is a simple shorthand notation for:
-``` java
-	ok(PDF.toBytes(document.render("Your new application is ready."))).as("application/pdf")
 ```
 
 Template rules
@@ -77,13 +74,12 @@ Currently, the module is hosted at http://www.joergviola.de/releases/.
 Therefore, including the following lines in your ```Build.scala``` will resolve it:
 ```
 val appDependencies = Seq(
-  ...
-      "pdf" %% "pdf" % "0.6-SNAPSHOT"
+      "nl.rhinofly" %% "play-pdf" % "0.7"
 )
-val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
-  ...
-  resolvers += Resolver.url("Violas Play Modules", url("http://www.joergviola.de/releases/"))(Resolver.ivyStylePatterns)
-)
+
+val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings(
+    resolvers += "Rhinofly Internal Repository" at "http://maven-repository.rhinofly.net:8081/artifactory/libs-release-local"
+  )
 ```
 After the next restart of Play!, the module is available.
 If you are using an IDE like Eclipse, remember to re-generate your project files. 
@@ -98,46 +94,52 @@ Releases
 ------------
 
 <table>
-    <tr>
-        <td>0.6</td>
-        <td>07.01.2015</td>
-        <td>Play 2.3</td>
-        <td></td>
-    </tr>
-	<tr>
-		<td>0.5</td>
-		<td>11.06.2013</td>
-		<td>Fix with higher UTF-8 codes, documentBaseURL</td>
-		<td>Thanks Wolfert de Kraker</td>
-	</tr>
-	<tr>
-		<td>0.4</td>
-		<td>08.02.2013</td>
-		<td>Play 2.1</td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>0.4</td>
-		<td>04.02.2013</td>
-		<td>Play 2.1.RC4, remote images</td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>0.3</td>
-		<td>15.06.2012</td>
-		<td>CSS handling</td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>0.2</td>
-		<td>21.05.2012</td>
-		<td>Font handling</td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>0.1</td>
-		<td>18.05.2012</td>
-		<td>Initial release</td>
-		<td></td>
-	</tr>
+  <tr>
+    <td>0.7</td>
+    <td>19.02.2015</td>
+    <td>Java => Scala</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>0.6</td>
+    <td>07.01.2015</td>
+    <td>Play 2.3</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>0.5</td>
+    <td>11.06.2013</td>
+    <td>Fix with higher UTF-8 codes, documentBaseURL</td>
+    <td>Thanks Wolfert de Kraker</td>
+  </tr>
+  <tr>
+    <td>0.4</td>
+    <td>08.02.2013</td>
+    <td>Play 2.1</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>0.4</td>
+    <td>04.02.2013</td>
+    <td>Play 2.1.RC4, remote images</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>0.3</td>
+    <td>15.06.2012</td>
+    <td>CSS handling</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>0.2</td>
+    <td>21.05.2012</td>
+    <td>Font handling</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>0.1</td>
+    <td>18.05.2012</td>
+    <td>Initial release</td>
+    <td></td>
+  </tr>
 </table>
