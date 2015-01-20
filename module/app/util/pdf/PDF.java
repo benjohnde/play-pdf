@@ -23,9 +23,9 @@ import org.xhtmlrenderer.resource.XMLResource;
 
 import play.Logger;
 import play.api.Play;
-import play.api.templates.Html;
 import play.mvc.Result;
 import play.mvc.Results;
+import play.twirl.api.Html;
 import scala.Option;
 
 import com.lowagie.text.DocumentException;
