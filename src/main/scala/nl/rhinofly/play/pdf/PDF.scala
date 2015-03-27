@@ -14,6 +14,7 @@ object PDF {
   private val tidy = new Tidy
 
   renderer.getSharedContext.setUserAgentCallback(userAgent)
+  tidy.setXHTML(true)
 
   def toBytes(body: String, documentBaseURL: String): Array[Byte] =
     toStream(tidify(body), documentBaseURL).toByteArray
@@ -32,7 +33,6 @@ object PDF {
     fontResolver.addFont(fontName, BaseFont.IDENTITY_H, BaseFont.EMBEDDED)
 
   private def tidify(body: String): String = {
-    tidy.setXHTML(true)
     val writer = new StringWriter
     tidy.parse(new StringReader(body), writer)
     writer.getBuffer.toString
