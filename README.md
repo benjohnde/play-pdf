@@ -1,15 +1,17 @@
-Play 2.3.x PDF module
--------------------
+# Scala PDF module
 
 This module help in generating PDF documents dynamically from your Play! web application.
 It simply renders your HTML- and CSS-based templates to PDF.
 It is based on the Flying Saucer library, which in turn uses iText for PDF generation.
-   
-Usage
------
 
-I have provided a simple example application at
-https://github.com/joergviola/play20-pdf/samples/pdf-sample.
+## Usage
+
+### Scala
+
+var document = <body><label>Scala PDF</label</body>
+var bytes = PDF.toStream(views.html.pdf.example())
+
+### Play Framework 2
 
 You can use a standard Play! scala template like this one:
 ``` html
@@ -24,25 +26,23 @@ You can use a standard Play! scala template like this one:
 
 Then this template, after having imported ```nl.rhinofly.play.PDF```, can simply be rendered as:
 ``` scala
-	def document = Action {
-        val bytes = PDF.toBytes(views.html.pdf.example())
-		Ok(bytes).as("application/pdf")
-	}
+def document = Action {
+  val bytes = PDF.toBytes(views.html.pdf.example())
+  Ok(bytes).as("application/pdf")
+}
 ```
 
-Template rules
---------------
+## Template rules
+
 
 Templates must generate XHTML.
 
 If the template is using an image, stylesheet, etc., it usually is loaded via an http call.
 The PDF modules tries to optimize that resource loading:
-If you specify the URI as a path into the classpath of your Play! app, the resource is loaded directly instead.
-See the above sample template for an example.
 
 Of course you can link to CSS files in your class path also, but be aware not to
-use the ``` media="screen"```qualifier. 
-  
+use the ``` media="screen"```qualifier.
+
 Fonts you use must be explicitely packaged with your app.
 ```
 <html>
@@ -59,19 +59,14 @@ Fonts you use must be explicitely packaged with your app.
 	</body>
 </html>
 ```
-Since the Arial font is not available to the java VM, you are required to
-add the corresponding font file, "Arial.ttf" to your Play! app.
 
-The module imports font resources as specified in your application configuration. 
-Specify fonts as follows:```pdf.fonts = ["Arial.ttf","Helvetica.ttf"]```.
-Each font file should be placed in your Play! app so that they will be included in the class path. 
+The Arial font is not available within the JVM thus it's required to add the TrueType Font file.
 
+```scala
+PDF.addFont("path/to/Arial.ttf")
+```
 
-Installation
-------------
-
-Currently, the module is hosted at http://www.joergviola.de/releases/.
-Therefore, including the following lines in your ```Build.scala``` will resolve it:
+## Installation
 ```
 val appDependencies = Seq(
       "nl.rhinofly" %% "play-pdf" % "0.7"
@@ -81,17 +76,12 @@ val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).s
     resolvers += "Rhinofly Internal Repository" at "http://maven-repository.rhinofly.net:8081/artifactory/libs-release-local"
   )
 ```
-After the next restart of Play!, the module is available.
-If you are using an IDE like Eclipse, remember to re-generate your project files. 
 
 
-License
--------
-
+## License
 Released under the MIT license; see the file LICENSE.
 
-Releases
-------------
+## Releases
 
 <table>
   <tr>
