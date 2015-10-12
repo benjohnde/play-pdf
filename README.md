@@ -1,8 +1,7 @@
-This module is no longer supported. Anyone is invited to take over!
-===================================================================
+Play 2.4.3 PDF module
+---------------------
 
-Play 2.0 PDF module
--------------------
+###This README is a bit outdated and will get some love in the near future.
 
 This module helps generating PDF documents dynamically from your Play! web application.
 It simply renders your HTML- and CSS-based templates to PDF.
@@ -93,45 +92,3 @@ License
 -------
 
 Released under the MIT license; see the file LICENSE.
-
-Releases
-------------
-
-<table>
-	<tr>
-		<td>0.5</td>
-		<td>11.06.2013</td>
-		<td>Fix with higher UTF-8 codes, documentBaseURL</td>
-		<td>Thanks Wolfert de Kraker</td>
-	</tr>
-	<tr>
-		<td>0.4</td>
-		<td>08.02.2013</td>
-		<td>Play 2.1</td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>0.4</td>
-		<td>04.02.2013</td>
-		<td>Play 2.1.RC4, remote images</td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>0.3</td>
-		<td>15.06.2012</td>
-		<td>CSS handling</td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>0.2</td>
-		<td>21.05.2012</td>
-		<td>Font handling</td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>0.1</td>
-		<td>18.05.2012</td>
-		<td>Initial release</td>
-		<td></td>
-	</tr>
-</table>
