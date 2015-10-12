@@ -8,7 +8,7 @@ object ApplicationBuild extends Build {
     val appVersion      = "0.2"
 
     val appDependencies = Seq(
-      "pdf" % "pdf_2.10" % "0.5"
+      "de.joergviola" %% "play-pdf" % "0.6"
     )
 
     val main = play.Project(appName, appVersion, appDependencies).settings(

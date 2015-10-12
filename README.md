@@ -4,10 +4,10 @@ This module is no longer supported. Anyone is invited to take over!
 Play 2.0 PDF module
 -------------------
 
-This module help in generating PDF documents dynamically from your Play! web application.
+This module helps generating PDF documents dynamically from your Play! web application.
 It simply renders your HTML- and CSS-based templates to PDF.
 It is based on the Flying Saucer library, which in turn uses iText for PDF generation.
-   
+
 Usage
 -----
 
@@ -56,7 +56,7 @@ Fonts you use must be explicitely packaged with your app.
 		<style type="text/css"><!--
 		body {
 			...
-			font-family: Arial;
+			font-family: FreeSans;
 		}
 		--></style>	
 	</head>
@@ -65,9 +65,10 @@ Fonts you use must be explicitely packaged with your app.
 	</body>
 </html>
 ```
-Since the Arial font is not available to the java VM, you are required to
-add the corresponding font file, "Arial.ttf" to your Play! app.
-The module adds ```/conf/fonts``` to the list of directories searched for font files.
+Since the FreeSans font is not available to the java VM, you are required to
+add the corresponding font file, "FreeSans.ttf" to your Play! app.
+The module adds ```/conf/resources/fonts``` to the list of directories
+searched for font files.
 
 Installation
 ------------
@@ -77,7 +78,7 @@ Therefore, including the following lines in your ```Build.scala``` will resolve 
 ```
 val appDependencies = Seq(
   ...
-      "pdf" % "pdf_2.10" % "0.5"
+      "de.joergviola" %% "play-pdf" % "0.6-SNAPSHOT"
 )
 val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
   ...

@@ -1,18 +1,17 @@
 package util.pdf;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import nu.validator.htmlparser.dom.HtmlDocumentBuilder;
+
 import org.w3c.dom.Document;
-import org.w3c.tidy.Tidy;
 import org.xhtmlrenderer.pdf.ITextFSImage;
 import org.xhtmlrenderer.pdf.ITextFontResolver;
 import org.xhtmlrenderer.pdf.ITextOutputDevice;
@@ -35,7 +34,7 @@ import com.lowagie.text.pdf.BaseFont;
 
 public class PDF {
 
-	private static final String PLAY_DEFAULT_URL = "http://localhost:9000";
+	private static final String PLAY_DEFAULT_URL = "http://localhost:" + play.Play.application().configuration().getInt("http.port", 9000);
 
 	public static class MyUserAgent extends ITextUserAgent {
 
@@ -51,7 +50,7 @@ public class PDF {
 				try {
 					Image image = Image.getInstance(getData(stream));
 					scaleToOutputResolution(image);
-					return new ImageResource(new ITextFSImage(image));
+					return new ImageResource(uri, new ITextFSImage(image));
 				} catch (Exception e) {
 					Logger.error("fetching image " + uri, e);
 					throw new RuntimeException(e);
@@ -132,12 +131,12 @@ public class PDF {
 	}
 
 	public static Result ok(Html html) {
-		byte[] pdf = toBytes(tidify(html.body()));
+		byte[] pdf = toBytes(html.body());
 		return Results.ok(pdf).as("application/pdf");
 	}
 
 	public static byte[] toBytes(Html html) {
-		byte[] pdf = toBytes(tidify(html.body()));
+		byte[] pdf = toBytes(html.body());
 		return pdf;
 	}
 
@@ -145,21 +144,13 @@ public class PDF {
 		return toBytes(string, PLAY_DEFAULT_URL);
 	}
 
-	private static String tidify(String body) {
-		Tidy tidy = new Tidy();
-		tidy.setXHTML(true);
-		StringWriter writer = new StringWriter();
-		tidy.parse(new StringReader(body), writer);
-		return writer.getBuffer().toString();
-	}
-
 	public static Result ok(Html html, String documentBaseURL) {
-		byte[] pdf = toBytes(tidify(html.body()), documentBaseURL);
+		byte[] pdf = toBytes(html.body(), documentBaseURL);
 		return Results.ok(pdf).as("application/pdf");
 	}
 
 	public static byte[] toBytes(Html html, String documentBaseURL) {
-		byte[] pdf = toBytes(tidify(html.body()), documentBaseURL);
+		byte[] pdf = toBytes(html.body(), documentBaseURL);
 		return pdf;
 	}
 
@@ -175,15 +166,17 @@ public class PDF {
 
 	public static void toStream(String string, OutputStream os, String documentBaseURL) {
 		try {
-			Reader reader = new StringReader(string);
+			InputStream input = new ByteArrayInputStream(string.getBytes("UTF-8"));
 			ITextRenderer renderer = new ITextRenderer();
-			addFontDirectory(renderer.getFontResolver(), Play.current().path()
-					+ "/conf/fonts");
+			String fontDirectory = Play.current().path() + "/conf/resources/fonts";
+			if (new File(fontDirectory).isDirectory()) {
+				addFontDirectory(renderer.getFontResolver(), fontDirectory);
+			}
 			MyUserAgent myUserAgent = new MyUserAgent(
 					renderer.getOutputDevice());
 			myUserAgent.setSharedContext(renderer.getSharedContext());
 			renderer.getSharedContext().setUserAgentCallback(myUserAgent);
-			Document document = XMLResource.load(reader).getDocument();
+			Document document = new HtmlDocumentBuilder().parse(input);
 			renderer.setDocument(document, documentBaseURL);
 			renderer.layout();
 			renderer.createPDF(os);
