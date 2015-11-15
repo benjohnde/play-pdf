@@ -1,7 +1,5 @@
-Play 2.4.3 PDF module
----------------------
-
-###This README is a bit outdated and will get some love in the near future.
+Play 2.4 PDF module
+-------------------
 
 This module helps generating PDF documents dynamically from your Play! web application.
 It simply renders your HTML- and CSS-based templates to PDF.
@@ -11,10 +9,10 @@ Usage
 -----
 
 I have provided a simple example application at
-https://github.com/joergviola/play20-pdf/samples/pdf-sample.
+https://github.com/benjohnde/play20-pdf/samples/pdf-sample.
 
 You can use a standard Play! scala template like this one:
-``` html
+```html
 @(message: String)
 
 @main("Welcome to Play 2.0") {
@@ -25,14 +23,14 @@ You can use a standard Play! scala template like this one:
 ```
 
 Then this template, after having imported ```util.pdf.PDF```, can simply be rendered as:
-``` java
-	public static Result document() {
-		return PDF.ok(document.render("Your new application is ready."));
-	}
+```java
+public static Result document() {
+	return PDF.ok(document.render("Your new application is ready."));
+}
 ```  
 where ```PDF.ok``` is a simple shorthand notation for:
-``` java
-	ok(PDF.toBytes(document.render("Your new application is ready."))).as("application/pdf")
+```java
+ok(PDF.toBytes(document.render("Your new application is ready."))).as("application/pdf")
 ```
 
 Template rules
@@ -49,7 +47,7 @@ Of course you can link to CSS files in your class path also, but be aware not to
 use the ``` media="screen"```qualifier. 
   
 Fonts you use must be explicitely packaged with your app.
-```
+```html
 <html>
 	<head>
 		<style type="text/css"><!--
@@ -72,19 +70,23 @@ searched for font files.
 Installation
 ------------
 
-Currently, the module is hosted at http://www.joergviola.de/releases/.
-Therefore, including the following lines in your ```Build.scala``` will resolve it:
+Currently the module is not hosted anywhere. In order to use it, you need to publish it locally in the current play-maven-repository. Therefore:
+
+```bash
+git clone https://github.com/benjohnde/play20-pdf.git
+cd play20-pdf/module
+activator publish-local
 ```
-val appDependencies = Seq(
-  ...
-      "de.joergviola" %% "play-pdf" % "0.6-SNAPSHOT"
-)
-val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
-  ...
-  resolvers += Resolver.url("Violas Play Modules", url("http://www.joergviola.de/releases/"))(Resolver.ivyStylePatterns)
+
+Then, add to your libraryDependencies in your ```build.sbt```:
+
+```
+libraryDependencies ++= Seq(
+  "de.joergviola" %% "play-pdf" % "0.7-SNAPSHOT"
 )
 ```
-After the next restart of Play!, the module is available.
+
+After the next restart of the typesafe-activator, the module should be available.
 If you are using an IDE like Eclipse, remember to re-generate your project files. 
 
 
