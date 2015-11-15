@@ -4,7 +4,7 @@ import Keys._
 object ApplicationBuild extends Build {
 
     val appName         = "play-pdf"
-    val appVersion      = "0.6-SNAPSHOT"
+    val appVersion      = "0.7-SNAPSHOT"
 
     val appDependencies = Seq(
       "org.xhtmlrenderer" % "flying-saucer-pdf" % "9.0.4",
