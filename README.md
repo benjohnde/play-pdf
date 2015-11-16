@@ -9,7 +9,7 @@ Usage
 -----
 
 I have provided a simple example application at
-https://github.com/benjohnde/play20-pdf/samples/pdf-sample.
+https://github.com/benjohnde/play20-pdf/tree/master/samples/pdf-sample.
 
 You can use a standard Play! scala template like this one:
 ```html
