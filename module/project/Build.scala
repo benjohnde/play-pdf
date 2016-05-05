@@ -15,7 +15,7 @@ object ApplicationBuild extends Build {
       libraryDependencies ++= appDependencies,
       version := appVersion,
       javacOptions ++= Seq("-Xlint"),
-      scalaVersion := "2.11.7",
+      scalaVersion := "2.11.8",
       // hack to suppress javadoc error, see: https://play.lighthouseapp.com/projects/82401/tickets/898-javadoc-error-invalid-flag-g-when-publishing-new-module-local#ticket-898-7
       publishArtifact in(Compile, packageDoc) := false,
       organization := "de.joergviola"
