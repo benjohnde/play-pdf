@@ -1,4 +1,4 @@
-Play 2.4 PDF module
+Play 2.5 PDF module
 -------------------
 
 This module helps generating PDF documents dynamically from your Play! web application.
