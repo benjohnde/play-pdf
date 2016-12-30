@@ -1,15 +1,4 @@
-# sbt output
-logs
-project/project
-project/target
-target
-dist
-tmp
-
-# eclipse output
-.history
-.cache
-.classpath
-.settings
-.project
-.target
+project/project/
+project/target/
+target/
+.idea/
