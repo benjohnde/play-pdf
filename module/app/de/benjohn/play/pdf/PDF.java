@@ -63,9 +63,8 @@ public class PDF {
                     Logger.error("fetching image " + uri, e);
                     throw new RuntimeException(e);
                 }
-            } else {
-                return super.getImageResource(uri);
             }
+            return super.getImageResource(uri);
         }
 
         @Override
@@ -73,8 +72,7 @@ public class PDF {
             try {
                 // uri is in fact a complete URL
                 String path = new URL(uri).getPath();
-                Option<InputStream> option = Play.current().resourceAsStream(
-                        path);
+                Option<InputStream> option = Play.current().resourceAsStream(path);
                 if (option.isDefined()) {
                     return new CSSResource(option.get());
                 } else {
@@ -99,9 +97,8 @@ public class PDF {
                     throw new RuntimeException(e);
                 }
                 return baos.toByteArray();
-            } else {
-                return super.getBinaryResource(uri);
             }
+            return super.getBinaryResource(uri);
         }
 
         @Override
@@ -116,8 +113,7 @@ public class PDF {
 
         private void scaleToOutputResolution(Image image) {
             float factor = getSharedContext().getDotsPerPixel();
-            image.scaleAbsolute(image.getPlainWidth() * factor,
-                    image.getPlainHeight() * factor);
+            image.scaleAbsolute(image.getPlainWidth() * factor, image.getPlainHeight() * factor);
         }
 
         private byte[] getData(InputStream stream) throws IOException {
@@ -126,14 +122,12 @@ public class PDF {
             return baos.toByteArray();
         }
 
-        private void copy(InputStream stream, OutputStream os)
-                throws IOException {
+        private void copy(InputStream stream, OutputStream os) throws IOException {
             byte[] buffer = new byte[1024];
             while (true) {
                 int len = stream.read(buffer);
                 os.write(buffer, 0, len);
-                if (len < buffer.length)
-                    break;
+                if (len < buffer.length) break;
             }
         }
     }
@@ -193,6 +187,7 @@ public class PDF {
         Configuration conf = Play.current().configuration();
         Option<List<String>> option = conf.getStringList("pdf.fonts");
         if (!option.isDefined()) {
+            Logger.info("No font list provided.");
             return;
         }
         List<String> fonts = option.get();
