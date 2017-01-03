@@ -39,7 +39,7 @@ public class PDF {
     private static final Integer resolvePort() {
         Configuration conf = Play.current().configuration();
         Option<Object> option = conf.getInt("http.port");
-        if (!option.isDefined()) {
+        if (option.isDefined()) {
             return (Integer) option.get();
         }
         return 9000;
@@ -186,7 +186,7 @@ public class PDF {
     private static void addFontsFromConfig(ITextFontResolver fontResolver) throws DocumentException, IOException {
         Configuration conf = Play.current().configuration();
         Option<List<String>> option = conf.getStringList("pdf.fonts");
-        if (!option.isDefined()) {
+        if (!option.isDefined() || option.isEmpty()) {
             Logger.info("No font list provided.");
             return;
         }
