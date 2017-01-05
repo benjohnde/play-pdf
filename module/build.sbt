@@ -1,6 +1,6 @@
 name := "pdf"
 organization := "de.benjohn.play"
-version := "1.1"
+version := "1.1.1"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
 

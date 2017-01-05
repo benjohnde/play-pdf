@@ -1,6 +1,6 @@
 name := """example"""
 
-version := "1.0-SNAPSHOT"
+version := "1.1.1"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
@@ -10,5 +10,5 @@ libraryDependencies ++= Seq(
   javaJdbc,
   cache,
   javaWs,
-  "de.benjohn.play" %% "pdf" % "1.0"
+  "de.benjohn.play" %% "pdf" % "1.1.1"
 )

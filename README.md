@@ -78,16 +78,12 @@ Then, add to your libraryDependencies in your ```build.sbt```:
 
 ```
 libraryDependencies ++= Seq(
-  "de.benjohn.play" %% "pdf" % "1.0"
+  "de.benjohn.play" %% "pdf" % "1.1.1"
 )
 ```
 
 After the next restart of the typesafe-activator, the module should be available.
 If you are using an IDE like Eclipse, remember to re-generate your project files.
-
-## License
-
-Released under the MIT license; see the file LICENSE.
 
 ## Kudos
 
