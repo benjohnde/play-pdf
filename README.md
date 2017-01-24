@@ -78,7 +78,7 @@ Then, add to your libraryDependencies in your ```build.sbt```:
 
 ```
 libraryDependencies ++= Seq(
-  "de.benjohn.play" %% "pdf" % "1.1.1"
+  "de.benjohn.play" %% "pdf" % "1.1.2"
 )
 ```
 
