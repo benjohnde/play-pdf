@@ -4,9 +4,7 @@ version := "1.1.2"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.12.2"
 
-libraryDependencies ++= Seq(
-  "org.xhtmlrenderer" % "flying-saucer-pdf" % "9.1.1",
-  "nu.validator.htmlparser" % "htmlparser" % "1.4"
-)
+libraryDependencies += "org.xhtmlrenderer" % "flying-saucer-pdf" % "9.1.1"
+libraryDependencies += "nu.validator.htmlparser" % "htmlparser" % "1.4"
