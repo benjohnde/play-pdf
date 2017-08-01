@@ -24,12 +24,13 @@ Then this template, after having imported ```de.benjohn.play.pdf.PDF```, can sim
 
 ```java
 public static Result document() {
-	return PDF.ok(document.render("Your new application is ready."));
+    return PDF.ok(document.render("Your new application is ready."));
 }
 ```  
 where ```PDF.ok``` is a simple shorthand notation for:
 ```java
-ok(PDF.toBytes(document.render("Your new application is ready."))).as("application/pdf")
+    ok(PDF.toBytes(document.render("Your new application is ready.")))
+        .as("application/pdf")
 ```
 
 ## Template rules
@@ -42,23 +43,23 @@ If you specify the URI as a path into the classpath of your Play! app, the resou
 See the above sample template for an example.
 
 Of course you can link to CSS files in your class path also, but be aware not to
-use the ``` media="screen"```qualifier.
+use the `media="screen"` qualifier.
 
 Fonts you use must be explicitely packaged with your app.
+
 ```html
 <html>
-	<head>
-		<style>
-  		body {
-  			font-family: FreeSans;
-  		}
-	  </style>
-	</head>
-	<body>
-		...
-	</body>
+    <head>
+        <style>
+            body { font-family: FreeSans; }
+        </style>
+    </head>
+    <body>
+    ...
+    </body>
 </html>
 ```
+
 The module imports font resources as specified in your application configuration.
 Specify fonts as follows: ```pdf.fonts = ["Arial.ttf", "Helvetica.ttf"]```.
 Each font file should be placed in your Play app configuration folder, so that they will be included.
@@ -74,7 +75,7 @@ cd play-pdf/module
 activator publish-local
 ```
 
-Then, add to your libraryDependencies in your ```build.sbt```:
+Then, add to your libraryDependencies in your `build.sbt`:
 
 ```scala
 libraryDependencies ++= Seq(
