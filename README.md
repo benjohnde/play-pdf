@@ -6,8 +6,7 @@ It is based on the Flying Saucer library, which in turn uses iText for PDF gener
 
 ## Usage
 
-I have provided a simple example application at
-https://github.com/benjohnde/play-pdf/tree/master/example.
+I created an example application https://github.com/benjohnde/play-pdf/tree/master/example.
 
 You can use a standard Play! scala template like this one:
 ```html
