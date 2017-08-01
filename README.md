@@ -20,7 +20,7 @@ You can use a standard Play! scala template like this one:
 }
 ```
 
-Then this template, after having imported ```de.benjohn.play.pdf.PDF```, can simply be rendered as:
+Then this template, after having imported `de.benjohn.play.pdf.PDF`, can simply be rendered as:
 
 ```java
 public static Result document() {
@@ -61,8 +61,14 @@ Fonts you use must be explicitely packaged with your app.
 </html>
 ```
 
-The module imports font resources as specified in your application configuration.
-Specify fonts as follows: ```pdf.fonts = ["Arial.ttf", "Helvetica.ttf"]```.
+The module imports font resources as specified in your [application configuration](https://github.com/benjohnde/play-pdf/blob/master/example/conf/application.conf).
+
+Specify fonts as follows:
+
+```bash
+pdf.fonts = ["Arial.ttf", "Helvetica.ttf"]
+```
+
 Each font file should be placed in your Play app configuration folder, so that they will be included.
 See also the example project.
 
