@@ -13,7 +13,7 @@ You can use a standard Play! scala template like this one:
 ```html
 @(message: String)
 
-@main("Welcome to Play 2.5") {
+@main("Welcome to Play 2.6.2") {
     Image: <img src="/public/images/favicon.png"/><br/>
     Hello world! <br/>
     @message <br/>
@@ -76,9 +76,9 @@ activator publish-local
 
 Then, add to your libraryDependencies in your ```build.sbt```:
 
-```
+```scala
 libraryDependencies ++= Seq(
-  "de.benjohn.play" %% "pdf" % "1.1.2"
+    "de.benjohn.play" %% "pdf" % "1.1.3"
 )
 ```
 
