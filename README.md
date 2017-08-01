@@ -29,8 +29,9 @@ public static Result document() {
 ```  
 where ```PDF.ok``` is a simple shorthand notation for:
 ```java
-    ok(PDF.toBytes(document.render("Your new application is ready.")))
-        .as("application/pdf")
+public static Result document() {
+    return ok(PDF.toBytes(document.render("Your new application is ready."))).as("application/pdf")
+}
 ```
 
 ## Template rules
