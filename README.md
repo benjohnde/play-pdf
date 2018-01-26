@@ -78,7 +78,7 @@ Currently the module is not hosted anywhere. In order to use it, you need to pub
 ```bash
 git clone https://github.com/benjohnde/play-pdf.git
 cd play-pdf/module
-activator publish-local
+sbt publish-local
 ```
 
 Then, add to your libraryDependencies in your `build.sbt`:
@@ -89,7 +89,7 @@ libraryDependencies ++= Seq(
 )
 ```
 
-After the next restart of the typesafe-activator, the module should be available.
+After the next restart of the `sbt`, the module should be available.
 If you are using an IDE like Eclipse, remember to re-generate your project files.
 
 ## Kudos
